@@ -19,6 +19,18 @@ jobs:
           echo "matrix_tests=[\"['aaa', 'bbb', 'ccc']\",\"['ddd', 'eee', 'fff']\"]" >> $GITHUB_OUTPUT
     outputs:
       matrix_tests: ${{ steps.prepare.outputs.matrix_tests }}
+  debug:
+    name: L2 debug
+    runs-on:
+      - self-hosted
+      - ${{ inputs.ARCH }}
+    needs: pre_test
+    if: ${{ always() && needs.pre_test.result == 'success' }}
+    steps:
+      - name: Read tests
+        run: |
+          echo "${{ needs.pre_test.outputs.matrix_tests }}"
+          echo "${{ fromJson(needs.pre_test.outputs.matrix_tests) }}"
   test:
     name: L2 handling matrix
     needs: pre_test
