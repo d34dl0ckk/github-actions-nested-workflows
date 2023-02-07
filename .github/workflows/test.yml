@@ -1,12 +1,6 @@
 on:
   workflow_call:
     inputs:
-      DOCKER_BUILD_REPO:
-        required: true
-        type: string
-      IMAGE_BASE_NAME:
-        required: true
-        type: string
       ARCH:
         required: true
         type: string
