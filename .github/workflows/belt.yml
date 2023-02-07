@@ -1,0 +1,42 @@
+name: Belt
+
+on:
+  workflow_call:
+
+jobs:
+  pre_test:
+    name: Pre-test
+    strategy:
+      matrix:
+        arch: ${{ fromJson(inputs.SUPPORTED_ARCH) }}
+    runs-on:
+      - self-hosted
+      - ${{ matrix.arch }}
+    steps:
+      - name: Create matrix
+        id: prepare
+        run: |
+          echo "matrix_tests=[\"['aaa', 'bbb', 'ccc']\",\"['ddd', 'eee', 'fff']\"]" >> $GITHUB_OUTPUT
+    outputs:
+      matrix_tests: ${{ steps.prepare.outputs.matrix_tests }}
+  test:
+    name: Test
+    needs:
+      - pre_test
+    if: ${{ always() && needs.pre_test.result == 'success' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: ${{ fromJson(inputs.SUPPORTED_ARCH) }}
+        batch: ${{ fromJson(needs.pre_test.outputs.matrix_tests) }}
+    uses: ./.github/workflows/batch.yml
+    with:
+      ARCH: ${{ matrix.arch }}
+      TESTS: ${{ matrix.batch }}
+  nested:
+    name: Test
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: ${{ fromJson(inputs.SUPPORTED_ARCH) }}
+    uses: ./.github/workflows/test.yml

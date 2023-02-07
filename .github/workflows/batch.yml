@@ -1,0 +1,23 @@
+on:
+  workflow_call:
+    inputs:
+      ARCH:
+        required: true
+        type: string
+      TESTS:
+        required: true
+        type: string
+
+jobs:
+  test:
+    runs-on:
+      - self-hosted
+      - ${{ inputs.ARCH }}
+    strategy:
+      fail-fast: false
+      matrix:
+        value: ${{ fromJson(inputs.TESTS) }}
+    steps:
+      - name: Print values
+        run: |
+          echo ${{ matrix.value }}
