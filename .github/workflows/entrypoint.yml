@@ -11,4 +11,5 @@ jobs:
     name: Belt
     uses: ./.github/workflows/belt.yml
     with:
-      SUPPORTED_ARCH: '["amd64","arm64"]'
+#      SUPPORTED_ARCH: '["amd64","arm64"]'
+      SUPPORTED_ARCH: '["arm64"]'
