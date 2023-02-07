@@ -9,7 +9,7 @@ on:
 jobs:
   debug-output-A:
     name: debug output
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix: ${{ fromJson(inputs.matrix-input) }}
     steps:
