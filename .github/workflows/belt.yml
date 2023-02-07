@@ -20,13 +20,7 @@ jobs:
       - name: Create matrix
         id: prepare
         run: |
-          echo 'matrix_tests<<EOF' >> $GITHUB_OUTPUT
-          echo '[' >> $GITHUB_OUTPUT
-          echo '  ["aaa", "bbb", "ccc"],' >> $GITHUB_OUTPUT
-          echo '  ["ddd", "eee", "fff"]' >> $GITHUB_OUTPUT
-          echo ']' >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
-#          echo 'matrix_tests=[["aaa", "bbb", "ccc"],["ddd", "eee", "fff"]]' >> $GITHUB_OUTPUT
+          echo 'matrix_tests=[["aaa", "bbb", "ccc"],["ddd", "eee", "fff"]]' >> $GITHUB_OUTPUT
     outputs:
       matrix_tests: ${{ steps.prepare.outputs.matrix_tests }}
   test:
