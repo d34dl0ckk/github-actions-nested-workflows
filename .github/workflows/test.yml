@@ -8,7 +8,7 @@ on:
 
 jobs:
   pre_test:
-    name: Pre-test
+    name: L2 prepping matrix
     runs-on:
       - self-hosted
       - ${{ inputs.ARCH }}
@@ -20,7 +20,7 @@ jobs:
     outputs:
       matrix_tests: ${{ steps.prepare.outputs.matrix_tests }}
   test:
-    name: Test
+    name: L2 handling matrix
     needs: pre_test
     if: ${{ always() && needs.pre_test.result == 'success' }}
     strategy:

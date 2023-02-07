@@ -9,7 +9,7 @@ on:
 
 jobs:
   pre_test:
-    name: Pre-test
+    name: L1 prepping matrix
     strategy:
       matrix:
         arch: ${{ fromJson(inputs.SUPPORTED_ARCH) }}
@@ -24,7 +24,7 @@ jobs:
     outputs:
       matrix_tests: ${{ steps.prepare.outputs.matrix_tests }}
   test:
-    name: Test
+    name: L1 handling matrix
     needs:
       - pre_test
     if: ${{ always() && needs.pre_test.result == 'success' }}
@@ -38,7 +38,7 @@ jobs:
       ARCH: ${{ matrix.arch }}
       TESTS: ${{ matrix.batch }}
   nested:
-    name: Test
+    name: Calling L2 workflow
     strategy:
       fail-fast: false
       matrix:
