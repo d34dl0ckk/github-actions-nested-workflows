@@ -44,3 +44,5 @@ jobs:
       matrix:
         arch: ${{ fromJson(inputs.SUPPORTED_ARCH) }}
     uses: ./.github/workflows/test.yml
+    with:
+      ARCH: ${{ matrix.arch }}
