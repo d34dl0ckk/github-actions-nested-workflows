@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - '**'
-    inputs:
-      SUPPORTED_ARCH:
-        required: true
-        type: string
 
 
 jobs:

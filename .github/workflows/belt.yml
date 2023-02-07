@@ -2,6 +2,10 @@ name: Belt
 
 on:
   workflow_call:
+    inputs:
+      SUPPORTED_ARCH:
+        required: true
+        type: string
 
 jobs:
   pre_test:
