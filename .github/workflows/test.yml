@@ -17,10 +17,10 @@ jobs:
         id: prepare
         run: |
           echo 'matrix_tests<<EOF' >> $GITHUB_OUTPUT
-          cat '[' >> $GITHUB_OUTPUT
-          cat '  ["aaa", "bbb", "ccc"],' >> $GITHUB_OUTPUT
-          cat '  ["ddd", "eee", "fff"]' >> $GITHUB_OUTPUT
-          cat ']' >> $GITHUB_OUTPUT
+          echo '[' >> $GITHUB_OUTPUT
+          echo '  ["aaa", "bbb", "ccc"],' >> $GITHUB_OUTPUT
+          echo '  ["ddd", "eee", "fff"]' >> $GITHUB_OUTPUT
+          echo ']' >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
 #          echo 'matrix_tests=[["aaa", "bbb", "ccc"],["ddd", "eee", "fff"]]' >> $GITHUB_OUTPUT
     outputs:
