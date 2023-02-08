@@ -20,7 +20,7 @@ jobs:
       - name: Create matrix
         id: prepare
         run: |
-          echo "matrix_tests=["['aaa', 'bbb', 'ccc']","['ddd', 'eee', 'fff']"]" >> $GITHUB_OUTPUT
+          echo 'matrix_tests=["['aaa', 'bbb', 'ccc']","['ddd', 'eee', 'fff']"]' >> $GITHUB_OUTPUT
     outputs:
       matrix_tests: ${{ tojson(steps.prepare.outputs.matrix_tests) }}
   test:
@@ -32,7 +32,7 @@ jobs:
       fail-fast: false
       matrix:
         arch: ${{ fromJson(inputs.SUPPORTED_ARCH) }}
-        batch: ${{ tojson(needs.pre_test) }}
+        batch: ${{ fromjson(needs.pre_test) }}
     uses: ./.github/workflows/batch.yml
     with:
       ARCH: ${{ matrix.arch }}
