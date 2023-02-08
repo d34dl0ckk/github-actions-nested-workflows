@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "matrix_tests=[[aaa, bbb, ccc],[ddd, eee, fff]]" >> $GITHUB_OUTPUT
     outputs:
-      matrix_tests: ${{ steps.prepare.outputs.matrix_tests }}
+      matrix_tests: ${{ tojson(steps.prepare.outputs.matrix_tests) }}
   test:
     name: L1 handling matrix
     needs:
