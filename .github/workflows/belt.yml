@@ -32,11 +32,11 @@ jobs:
       fail-fast: false
       matrix:
         arch: ${{ fromJson(inputs.SUPPORTED_ARCH) }}
-        batch: ${{ tojson(needs.pre_test.outputs.matrix_tests) }}
+        include: ${{ fromJson(needs.pre_test.outputs.matrix_tests) }}
     uses: ./.github/workflows/batch.yml
     with:
       ARCH: ${{ matrix.arch }}
-      TESTS: ${{ matrix.batch }}
+      TESTS: ${{ matrix.include }}
   nested:
     name: Calling L2 workflow
     strategy:
