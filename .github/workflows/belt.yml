@@ -20,9 +20,9 @@ jobs:
       - name: Create matrix
         id: prepare
         run: |
-          echo "matrix_tests=[[aaa, bbb, ccc],[ddd, eee, fff]]" >> $GITHUB_OUTPUT
+          echo "matrix_tests=[\"['aaa', 'bbb', 'ccc']\",\"['ddd', 'eee', 'fff']\"]" >> $GITHUB_OUTPUT
     outputs:
-      matrix_tests: ${{ tojson(steps.prepare.outputs.matrix_tests) }}
+      matrix_tests: ${{ fromJson(steps.prepare.outputs.matrix_tests) }}
   test:
     name: L1 handling matrix
     needs:
