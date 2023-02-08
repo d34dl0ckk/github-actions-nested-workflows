@@ -20,7 +20,7 @@ jobs:
       - name: Create matrix
         id: prepare
         run: |
-          echo "matrix_tests=[\"['aaa', 'bbb', 'ccc']\",\"['ddd', 'eee', 'fff']\"]" >> $GITHUB_OUTPUT
+          echo "matrix_tests=[\"[\"aaa\", \"bbb\", \"ccc\"]\",\"[\"ddd\", \"eee\", \"fff\"]\"]" >> $GITHUB_OUTPUT
     outputs:
       matrix_tests: ${{ steps.prepare.outputs.matrix_tests }}
   test:
@@ -36,7 +36,7 @@ jobs:
     uses: ./.github/workflows/batch.yml
     with:
       ARCH: ${{ matrix.arch }}
-      TESTS: ${{ fromJSON(matrix.batch) }}
+      TESTS: ${{ matrix.batch }}
   nested:
     name: Calling L2 workflow
     strategy:
