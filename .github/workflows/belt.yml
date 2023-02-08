@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> $GITHUB_OUTPUT
     outputs:
-      matrix_tests: ${{ steps.prepare.outputs.matrix_tests }}
+      matrix_tests: ${{ toJSON(steps.prepare.outputs.matrix_tests) }}
   test:
     name: L1 handling matrix
     needs:
