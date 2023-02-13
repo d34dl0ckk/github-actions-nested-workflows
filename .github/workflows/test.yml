@@ -8,7 +8,7 @@ on:
         type: string
 
 jobs:
-  pre_test2:
+  pre_test:
     name: L2 prepping matrix
     runs-on:
       - self-hosted
@@ -20,16 +20,13 @@ jobs:
           echo "matrix_tests=[\"['aaa', 'bbb', 'ccc']\",\"['ddd', 'eee', 'fff']\"]" >> $GITHUB_OUTPUT
     outputs:
       matrix_tests: ${{ steps.prepare.outputs.matrix_tests }}
-  test2:
+  test:
     name: L2 handling matrix
     needs:
-      - pre_test2
+      - pre_test
     if: ${{ always() && needs.pre_test2.result == 'success' }}
     strategy:
       fail-fast: false
-      matrix:
-        arch: ${{ fromJson(inputs.ARCH) }}
-        batch: ${{ needs.pre_test2.outputs.matrix_tests }}
     uses: ./.github/workflows/batch.yml
     with:
       ARCH: ${{ matrix.arch }}
