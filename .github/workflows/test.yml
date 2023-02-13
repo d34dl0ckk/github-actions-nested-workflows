@@ -26,5 +26,5 @@ jobs:
       - pre_test
     uses: ./.github/workflows/batch.yml
     with:
-      ARCH: ${{ fromJson(inputs.ARCH) }}
+      ARCH: ${{ inputs.ARCH }}
       TESTS: ${{ toJson(needs.pre_test.outputs.matrix_tests) }}
