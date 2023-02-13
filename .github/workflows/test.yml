@@ -24,7 +24,6 @@ jobs:
     name: L2 handling matrix
     needs:
       - pre_test
-    if: ${{ always() && needs.pre_test2.result == 'success' }}
     uses: ./.github/workflows/batch.yml
     with:
       ARCH: ${{ fromJson(inputs.ARCH) }}
