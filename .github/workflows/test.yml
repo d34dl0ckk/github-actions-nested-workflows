@@ -27,4 +27,4 @@ jobs:
     uses: ./.github/workflows/batch.yml
     with:
       ARCH: ${{ fromJson(inputs.ARCH) }}
-      TESTS: ${{ fromJson(needs.pre_test.outputs.matrix_tests) }}
+      TESTS: ${{ toJson(needs.pre_test.outputs.matrix_tests) }}
