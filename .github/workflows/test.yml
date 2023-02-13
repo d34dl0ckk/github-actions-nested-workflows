@@ -25,9 +25,7 @@ jobs:
     needs:
       - pre_test
     if: ${{ always() && needs.pre_test2.result == 'success' }}
-    strategy:
-      fail-fast: false
     uses: ./.github/workflows/batch.yml
     with:
-      ARCH: ${{ matrix.arch }}
-      TESTS: ${{ matrix.batch }}
+      ARCH: ${{ fromJson(inputs.ARCH }}
+      TESTS: ${{ needs.pre_test.outputs.matrix_tests }}
