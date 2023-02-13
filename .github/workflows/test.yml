@@ -4,10 +4,6 @@ on:
       ARCH:
         required: true
         type: string
-    outputs:
-      matrix_tests:
-        description: "matrix containing tests to run per architecture"
-        value: ${{ jobs.pre_test.outputs.matrix_tests }}
 
 jobs:
   pre_test:
@@ -19,7 +15,7 @@ jobs:
       - name: Create matrix
         id: prepare
         run: |
-          echo "matrix_tests=[\"['aaa', 'bbb', 'ccc']\",\"['ddd', 'eee', 'fff']\"]" >> $GITHUB_OUTPUT
+          echo "matrix_tests=[\"['aaa', 'bbb', 'ccc']\",\"['ddd', 'eee', 'fff']\"]" >> $GITHUB_OUTP
     outputs:
       matrix_tests: ${{ steps.prepare.outputs.matrix_tests }}
   debug:
@@ -35,14 +31,16 @@ jobs:
           echo "${{ needs.pre_test.outputs.matrix_tests }}"
           echo "${{ fromJson(needs.pre_test.outputs.matrix_tests) }}"
   test:
-    name: L2 handling matrix
-    needs: pre_test
+    name: L1 handling matrix
+    needs:
+      - pre_test
     if: ${{ always() && needs.pre_test.result == 'success' }}
     strategy:
       fail-fast: false
       matrix:
+        arch: ${{ fromJson(inputs.SUPPORTED_ARCH) }}
         batch: ${{ fromJson(needs.pre_test.outputs.matrix_tests) }}
     uses: ./.github/workflows/batch.yml
     with:
-      ARCH: ${{ inputs.ARCH }}
+      ARCH: ${{ matrix.arch }}
       TESTS: ${{ matrix.batch }}
