@@ -7,7 +7,7 @@ on:
         required: true
         type: string
     outputs:
-      tests_matrix:
+      matrix_tests:
         description: "matrix containing tests to run per architecture"
         value: ${{ jobs.pre_test.outputs.matrix_tests }}
 
@@ -36,7 +36,7 @@ jobs:
       fail-fast: false
       matrix:
         arch: ${{ fromJson(inputs.SUPPORTED_ARCH) }}
-        batch: ${{ toJson(needs.pre_test) }}
+        batch: ${{ toJson(needs.pre_test.matrix_tests) }}
     uses: ./.github/workflows/batch.yml
     with:
       ARCH: ${{ matrix.arch }}
