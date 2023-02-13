@@ -4,7 +4,10 @@ on:
       ARCH:
         required: true
         type: string
-
+    outputs:
+      matrix_tests:
+        description: "matrix containing tests to run per architecture"
+        value: ${{ jobs.pre_test.outputs.matrix_tests }}
 
 jobs:
   pre_test:
