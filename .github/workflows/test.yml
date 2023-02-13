@@ -42,8 +42,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: ${{ fromJson(inputs.ARCH) }}
-        batch: ${{ fromJson(needs.pre_test.outputs.matrix_tests) }}
+        arch: ${{ toJson(inputs.ARCH) }}
+        batch: ${{ toJson(needs.pre_test.outputs.matrix_tests) }}
     uses: ./.github/workflows/batch.yml
     with:
       ARCH: ${{ matrix.arch }}
