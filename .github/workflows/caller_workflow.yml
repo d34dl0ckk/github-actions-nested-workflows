@@ -6,6 +6,8 @@ on:
 jobs:
   pre_test:
     uses: ./.github/workflows/belt.yml
+    with:
+      SUPPORTED_ARCH: 'amd64'
     
   test:
     name: L1 handling matrix
