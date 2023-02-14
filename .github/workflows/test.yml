@@ -17,14 +17,14 @@ jobs:
       - name: Create matrix
         id: prepare
         run: |
-          echo "matrix_tests=[\"['aaa', 'bbb', 'ccc']\",\"['ddd', 'eee', 'fff']\"]" >> $GITHUB_OUTPUT
+          echo "::set-output name=matrix::{\"include\":[\"['aaa', 'bbb', 'ccc']\",\"['ddd', 'eee', 'fff']\"]" >> $GITHUB_OUTPUT
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: matrix_tests
           path: matrix.txt
     outputs:
-      matrix_tests: ${{ steps.prepare.outputs.matrix_tests }}
+      matrix: ${{ steps.prepare.outputs.matrix }}
   test:
     name: L2 handling matrix
     runs-on:
