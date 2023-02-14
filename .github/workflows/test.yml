@@ -16,8 +16,7 @@ jobs:
     steps:
       - name: Create matrix
         id: prepare
-        run: |
-          echo "::set-output name=matrix::{\"include\":[\"['aaa', 'bbb', 'ccc']\",\"['ddd', 'eee', 'fff']\"]" >> $GITHUB_OUTPUT
+        run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
     outputs:
       matrix: ${{ steps.prepare.outputs.matrix }}
   test:
