@@ -18,20 +18,13 @@ jobs:
         id: prepare
         run: |
           echo "matrix_tests=[\"['aaa', 'bbb', 'ccc']\",\"['ddd', 'eee', 'fff']\"]" >> $GITHUB_OUTPUT
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: matrix_tests
+          path: matrix.txt
     outputs:
       matrix_tests: ${{ steps.prepare.outputs.matrix_tests }}
-  debug:
-    name: L2 debug
-    runs-on:
-      - self-hosted
-      - ${{ inputs.ARCH }}
-    needs: pre_test
-    if: ${{ always() && needs.pre_test.result == 'success' }}
-    steps:
-      - name: Read tests
-        run: |
-          echo "${{ needs.pre_test.outputs.matrix_tests }}"
-          echo "${{ fromJson(needs.pre_test.outputs.matrix_tests) }}"
   test:
     name: L2 handling matrix
     needs:
