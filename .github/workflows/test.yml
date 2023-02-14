@@ -27,14 +27,24 @@ jobs:
       matrix_tests: ${{ steps.prepare.outputs.matrix_tests }}
   test:
     name: L2 handling matrix
+    runs-on:
+      - self-hosted
+      - ${{ inputs.ARCH }}
     needs:
       - pre_test
     if: ${{ always() && needs.pre_test.result == 'success' }}
     strategy:
       fail-fast: false
-      matrix:
-        batch: ${{ needs.pre_test.outputs.matrix_tests }}
-    uses: ./.github/workflows/batch.yml
-    with:
-      ARCH: ${{ toJson(inputs.ARCH) }}
-      TESTS: ${{ needs.pre_test.outputs.matrix_tests }}
+      matrix: ${{ fromJson(steps.download-artifact.outputs.matrix).matrix }}
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: matrix
+      id: download-artifact
+
+    - name: Run batch workflow
+      uses: ./.github/workflows/batch.yml
+      with:
+        ARCH: ${{ toJson(inputs.ARCH) }}
+        TESTS: ${{ matrix.value }}
