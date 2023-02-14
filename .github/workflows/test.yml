@@ -18,33 +18,18 @@ jobs:
         id: prepare
         run: |
           echo "::set-output name=matrix::{\"include\":[\"['aaa', 'bbb', 'ccc']\",\"['ddd', 'eee', 'fff']\"]" >> $GITHUB_OUTPUT
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: matrix_tests
-          path: matrix.txt
     outputs:
       matrix: ${{ steps.prepare.outputs.matrix }}
   test:
     name: L2 handling matrix
-    runs-on:
-      - self-hosted
-      - ${{ inputs.ARCH }}
     needs:
       - pre_test
     if: ${{ always() && needs.pre_test.result == 'success' }}
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(steps.download-artifact.outputs.matrix).matrix }}
-    steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: matrix
-      id: download-artifact
-
-    - name: Run batch workflow
-      uses: ./.github/workflows/batch.yml
-      with:
-        ARCH: ${{ toJson(inputs.ARCH) }}
-        TESTS: ${{ matrix.value }}
+      matrix:
+        batch: ${{ needs.pre_test.outputs.matrix_tests }}
+    uses: ./.github/workflows/batch.yml
+    with:
+      ARCH: ${{ toJson(inputs.ARCH) }}
+      TESTS: ${{ needs.pre_test.outputs.matrix_tests }}
